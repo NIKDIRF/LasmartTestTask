@@ -28,13 +28,6 @@ namespace TestTask.Controllers
             return new Point(result);
         }
 
-
-/*        [HttpPost]
-        public async Task<Comment> AddComment([FromBody] Comment comment) 
-        {
-            var result = await this._pointService.Create
-        }*/
-
         [HttpGet]
         public async Task<IReadOnlyCollection<Point>> GetAll()
         {

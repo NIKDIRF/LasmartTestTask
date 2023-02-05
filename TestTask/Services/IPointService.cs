@@ -12,7 +12,5 @@ namespace TestTask.Services
         Task<EPoint> FindById(int id);
         Task<Boolean> Delete(int id);
         Task<EPoint> Create(EPoint point);
-
-        //Task<EPoint> Update(EPoint point);
     }
 }

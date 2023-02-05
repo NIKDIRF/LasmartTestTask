@@ -19,21 +19,10 @@ namespace TestTask.Services
 
         public async Task<EPoint> Create(EPoint ePoint)
         {
-            
-            /*bool saved = true;
-            try
-            {*/
-                var r = await _context.EPoints.AddAsync(ePoint);
-                await _context.SaveChangesAsync();
-            /*} catch (Exception ex)
-            {
-                saved = false;
-            }
-*/
+            var r = await _context.EPoints.AddAsync(ePoint);
+            await _context.SaveChangesAsync();
             return ePoint;
         }
-
-        //public async Task<>
 
         public async Task<EPoint> FindById(int id)
         {

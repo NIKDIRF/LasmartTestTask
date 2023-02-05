@@ -26,6 +26,7 @@ export class Drawer {
         this.layer = new Konva.Layer();
         this.stage.add(this.layer);
         this.httpClient = httpClient;
+        //Создание точки по клику с зажатым ctrl
         this.stage.on('click', (event) => __awaiter(this, void 0, void 0, function* () {
             if (event.evt.ctrlKey) {
                 let $color = document.getElementById("color");
@@ -57,7 +58,8 @@ export class Drawer {
     generatePoint(point, newComment, newPosition) {
         let group = new Konva.Group();
         let circle = new Konva.Circle({
-            name: String(point.id),
+            name: "point",
+            id: point.id,
             radius: point.radius,
             x: point.x,
             y: point.y,
@@ -93,14 +95,17 @@ export class Drawer {
      */
     generateComment(comment, position) {
         let label = new Konva.Label({
+            name: "comment_label",
             y: position.y,
         });
         let tag = new Konva.Tag({
+            name: "comment_tag",
             fill: comment.backgroundColor,
             stroke: "#7A7777",
             strokeWidth: 1
         });
         let text = new Konva.Text({
+            name: "comment_text",
             text: " " + comment.text + " ",
             fontFamily: "Calibri",
             fontSize: 20,
@@ -110,16 +115,17 @@ export class Drawer {
         label.add(tag, text);
         return label;
     }
+    /**
+     * Обработчик удаления точки
+     * @param evt евент нажатия мыши
+     * @param group группа состоящяя из круга и лэйблов
+     * @private
+     */
     deleteHandler(evt, group) {
         return __awaiter(this, void 0, void 0, function* () {
-            let name;
-            group.getChildren().forEach(ch => {
-                if (!!ch.name()) {
-                    name = ch.name();
-                }
-            });
-            if (!!name) {
-                let id = parseInt(name);
+            let [foundPoint] = group.getChildren(ch => ch.name == "point");
+            if (!!foundPoint) {
+                let id = parseInt(foundPoint.id());
                 if (!isNaN(id)) {
                     try {
                         let result = yield this.httpClient.fetch("delete", "point/deletepoint?id=" + id);
@@ -138,6 +144,12 @@ export class Drawer {
         });
     }
     ;
+    /**
+     * Обработчик выбора группы
+     * @param evt евент нажатия мыши
+     * @param group группа состоящяя из круга и лэйблов
+     * @private
+     */
     selectGroupHandler(evt, group) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!!this.currentGroup) {

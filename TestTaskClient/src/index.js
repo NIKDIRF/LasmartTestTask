@@ -29,24 +29,23 @@ $button.addEventListener('click', (evt) => __awaiter(void 0, void 0, void 0, fun
         window.alert("Выберите точку для добавления комментария");
         return;
     }
-    let pointID;
-    drawer.currentGroup.getChildren().forEach(ch => {
-        if (!!ch.name()) {
-            pointID = parseInt(ch.name());
-        }
-    });
+    let [circle] = drawer.currentGroup.getChildren(ch => ch.name() == "point");
+    let [lastComment] = drawer.currentGroup.getChildren(ch => ch.name() == "comment_label").sort((a, b) => b.y() - a.y());
     let comment = {
         backgroundColor: $bgColor.value,
         text: $text.value,
-        pointId: pointID
+        pointId: circle.id()
     };
-    let last = drawer.currentGroup.getChildren().length - 1;
-    let circle = drawer.currentGroup.getChildren()[0];
-    let lastComment = drawer.currentGroup.getChildren()[last];
     let position = {
         x: circle.position().x,
-        y: lastComment.position().y + 25
+        y: 25
     };
+    if (!!lastComment) {
+        position.y += lastComment.y();
+    }
+    else {
+        position.y += circle.radius() + circle.position().y;
+    }
     yield httpClient.fetch("post", "comment/AddComment", JSON.stringify(comment));
     drawer.currentGroup.add(drawer.generateComment(comment, position));
 }));

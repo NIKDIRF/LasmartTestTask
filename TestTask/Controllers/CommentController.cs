@@ -7,11 +7,12 @@ using TestTask.Services;
 
 namespace TestTask.Controllers
 {
+    
     public class CommentController
     {
+        
         private readonly ILogger<PointController> _logger;
         private readonly ICommentService _service;
-
 
         public CommentController(ILogger<PointController> logger, ICommentService service)
         {

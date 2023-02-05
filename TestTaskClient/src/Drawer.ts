@@ -29,6 +29,7 @@ export class Drawer {
      * @param httpClient
      */
     constructor(container: string, size: { width: number, height: number }, httpClient: HttpClient) {
+
         this.stage = new Konva.Stage({
             container: container,
             width: size.width,
@@ -39,6 +40,7 @@ export class Drawer {
         this.stage.add(this.layer);
         this.httpClient = httpClient;
 
+        //Создание точки по клику с зажатым ctrl
         this.stage.on('click', async event => {
             if (event.evt.ctrlKey) {
 
@@ -73,7 +75,8 @@ export class Drawer {
         let group = new Konva.Group();
 
         let circle = new Konva.Circle({
-            name: String(point.id),
+            name: "point",
+            id: point.id,
             radius: point.radius,
             x: point.x,
             y: point.y,
@@ -116,16 +119,19 @@ export class Drawer {
      */
     public generateComment(comment: Comment, position: Konva.Vector2d): Konva.Label {
         let label = new Konva.Label({
+            name: "comment_label",
             y: position.y,
         });
 
         let tag = new Konva.Tag({
+            name: "comment_tag",
             fill: comment.backgroundColor,
             stroke: "#7A7777",
             strokeWidth: 1
         });
 
         let text = new Konva.Text({
+            name: "comment_text",
             text: " " + comment.text + " ",
             fontFamily: "Calibri",
             fontSize: 20,
@@ -137,15 +143,16 @@ export class Drawer {
         return label
     }
 
+    /**
+     * Обработчик удаления точки
+     * @param evt евент нажатия мыши
+     * @param group группа состоящяя из круга и лэйблов
+     * @private
+     */
     private async deleteHandler(evt: Konva.KonvaEventObject<MouseEvent>, group: Konva.Group): Promise<void> {
-        let name: string | undefined;
-        group.getChildren().forEach(ch => {
-            if (!!ch.name()) {
-                name = ch.name()
-            }
-        })
-        if (!!name) {
-            let id = parseInt(name);
+        let [foundPoint] = group.getChildren(ch => ch.name=="point");
+        if (!!foundPoint) {
+            let id = parseInt(foundPoint.id());
             if (!isNaN(id)) {
                 try {
                     let result = await this.httpClient.fetch("delete", "point/deletepoint?id=" + id)
@@ -162,6 +169,12 @@ export class Drawer {
         }
     };
 
+    /**
+     * Обработчик выбора группы
+     * @param evt евент нажатия мыши
+     * @param group группа состоящяя из круга и лэйблов
+     * @private
+     */
     private async selectGroupHandler(evt: Konva.KonvaEventObject<MouseEvent>, group: Konva.Group): Promise<void> {
         if (!!this.currentGroup) {
             this.currentGroup.getChildren().forEach((ch: Konva.Shape) => {
