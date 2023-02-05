@@ -150,7 +150,7 @@ export class Drawer {
      * @private
      */
     private async deleteHandler(evt: Konva.KonvaEventObject<MouseEvent>, group: Konva.Group): Promise<void> {
-        let [foundPoint] = group.getChildren(ch => ch.name=="point");
+        let [foundPoint] = group.getChildren(ch => ch.name() == "point");
         if (!!foundPoint) {
             let id = parseInt(foundPoint.id());
             if (!isNaN(id)) {

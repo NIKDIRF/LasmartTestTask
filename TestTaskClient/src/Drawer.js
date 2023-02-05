@@ -123,7 +123,7 @@ export class Drawer {
      */
     deleteHandler(evt, group) {
         return __awaiter(this, void 0, void 0, function* () {
-            let [foundPoint] = group.getChildren(ch => ch.name == "point");
+            let [foundPoint] = group.getChildren(ch => ch.name() == "point");
             if (!!foundPoint) {
                 let id = parseInt(foundPoint.id());
                 if (!isNaN(id)) {
