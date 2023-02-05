@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/konva@8/konva.min.js"></script>
+    <!--<reference path="./node_modules/konva/types/index.d.ts"></reference>-->
+    <script type="module" src="index.js"></script>
+    <script type="module" src="HttpClient.js"></script>
+</head>
+<body>
+<div class="row">
+    <div id="stage"></div>
+    <div class="column">
+
+        <div class="column" >
+            <p class="mainText">Параметры новой точки</p>
+            <div class="param">
+                <p class="paramText">Цвет </p>
+                <input type="color" value="#0075FF" id="color"/>
+            </div>
+            <div class="param">
+                <p class="paramText">Радиус</p>
+                <input type="number" min="1" max="50" value="15" id="radius"/>
+            </div>
+        </div>
+
+        <div class="column" >
+            <p class="mainText">Параметры нового комметария</p>
+            <div class="param">
+                <p class="paramText">Цвет </p>
+                <input type="color" value="#0075FF" id="commentColor"/>
+            </div>
+            <div class="param">
+                <p class="paramText">Текст</p>
+                <input id="text"/>
+            </div>
+            <button id="button">Добавить комментарий</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
